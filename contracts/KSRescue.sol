@@ -14,8 +14,8 @@ abstract contract KSRescue is KyberSwapRole {
     if (amount == 0) amount = _getAvailableAmount(token);
     if (amount > 0) {
       if (_isETH(token)) {
-        (bool success,) = recipient.call{value: amount}("");
-        require(success, 'FundSecure: ETH_TRANSFER_FAILED');
+        (bool success,) = recipient.call{value: amount}('');
+        require(success, 'KSRescue: ETH_TRANSFER_FAILED');
       } else {
         token.safeTransfer(recipient, amount);
       }
