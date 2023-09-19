@@ -4,6 +4,15 @@ out = 'out'
 libs = ['node_modules','lib']
 fs_permissions = [{ access = "read", path = "./"}]
 remappings = [
-    '@root/=contracts/',
-    '@openzeppelin/=lib/openzeppelin-contracts/'
+    '@openzeppelin/=lib/openzeppelin-contracts/',
+    '@src/=contracts/'
 ]
+
+## Format configs
+[fmt]
+line_length = 100
+tab_width = 2
+bracket_spacing = false
+int_types = 'long'
+quote_style = 'single'
+multiline_func_header = 'params_first'
