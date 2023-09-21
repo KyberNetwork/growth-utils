@@ -19,7 +19,7 @@ contract KSRescueTest is KSRescueSetup {
 
     vm.startPrank(operator);
     vm.expectRevert('Ownable: caller is not the owner');
-    ksRescue.rescueFunds(IERC20(ETH_ADDRESS), approveAmount, operator);
+    ksRescue.rescueFunds(ETH_ADDRESS, approveAmount, operator);
   }
 
   function testRevertNotReceiveETH() public {
@@ -27,7 +27,7 @@ contract KSRescueTest is KSRescueSetup {
 
     vm.startPrank(owner);
     vm.expectRevert('KSRescue: ETH_TRANSFER_FAILED');
-    ksRescue.rescueFunds(IERC20(ETH_ADDRESS), approveAmount, address(mockSC));
+    ksRescue.rescueFunds(ETH_ADDRESS, approveAmount, address(mockSC));
   }
 
   function testRescueETH() public {
@@ -37,7 +37,7 @@ contract KSRescueTest is KSRescueSetup {
     vm.startPrank(owner);
     uint256 balanceOwnerBefore = owner.balance;
     uint256 balanceSCBefore = ksRescueAddr.balance;
-    ksRescue.rescueFunds(IERC20(ETH_ADDRESS), withdrawAmount, owner);
+    ksRescue.rescueFunds(ETH_ADDRESS, withdrawAmount, owner);
     assertEq(balanceOwnerBefore + withdrawAmount, owner.balance);
     assertEq(balanceSCBefore - withdrawAmount, ksRescueAddr.balance);
   }
@@ -48,7 +48,7 @@ contract KSRescueTest is KSRescueSetup {
     vm.startPrank(owner);
     uint256 balanceOwnerBefore = owner.balance;
     uint256 balanceSCBefore = ksRescueAddr.balance;
-    ksRescue.rescueFunds(IERC20(ETH_ADDRESS), 0, owner);
+    ksRescue.rescueFunds(ETH_ADDRESS, 0, owner);
     assertEq(balanceOwnerBefore + approveAmount - 1, owner.balance);
     assertEq(balanceSCBefore - approveAmount + 1, ksRescueAddr.balance);
   }
@@ -60,7 +60,7 @@ contract KSRescueTest is KSRescueSetup {
     vm.startPrank(owner);
     uint256 balanceOwnerBefore = token2.balanceOf(owner);
     uint256 balanceSCBefore = token2.balanceOf(ksRescueAddr);
-    ksRescue.rescueFunds(IERC20(token2Addr), withdrawAmount, owner);
+    ksRescue.rescueFunds(token2Addr, withdrawAmount, owner);
     assertEq(balanceOwnerBefore + withdrawAmount, token2.balanceOf(owner));
     assertEq(balanceSCBefore - withdrawAmount, token2.balanceOf(ksRescueAddr));
   }
@@ -71,7 +71,7 @@ contract KSRescueTest is KSRescueSetup {
     vm.startPrank(owner);
     uint256 balanceOwnerBefore = token2.balanceOf(owner);
     uint256 balanceSCBefore = token2.balanceOf(ksRescueAddr);
-    ksRescue.rescueFunds(IERC20(token2Addr), 0, owner);
+    ksRescue.rescueFunds(token2Addr, 0, owner);
     assertEq(balanceOwnerBefore + approveAmount - 1, token2.balanceOf(owner));
     assertEq(balanceSCBefore - approveAmount + 1, token2.balanceOf(ksRescueAddr));
   }
