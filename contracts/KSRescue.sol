@@ -11,6 +11,7 @@ abstract contract KSRescue is KyberSwapRole {
   address private constant ETH_ADDRESS = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
 
   function rescueFunds(IERC20 token, uint256 amount, address recipient) external onlyOwner {
+    require(recipient != address(0), 'KSRescue: invalid recipient');
     if (amount == 0) amount = _getAvailableAmount(token);
     if (amount > 0) {
       if (_isETH(token)) {
