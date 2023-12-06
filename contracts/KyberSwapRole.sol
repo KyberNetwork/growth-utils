@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import {Ownable} from '@openzeppelin/contracts/access/Ownable.sol';
 import {Pausable} from '@openzeppelin/contracts/security/Pausable.sol';
 
+
 abstract contract KyberSwapRole is Ownable, Pausable {
   mapping(address => bool) public operators;
   mapping(address => bool) public guardians;
