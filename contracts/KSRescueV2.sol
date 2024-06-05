@@ -25,7 +25,7 @@ abstract contract KSRescueV2 is KSRescue {
     address recipient
   ) external onlyOwner {
     require(recipient != address(0), 'KSRescue: invalid recipient');
-    require(ids.length == amounts.length);
+    require(ids.length == amounts.length, 'KSRescue: invalid array length');
     for (uint256 i = 0; i < ids.length; ++i) {
       if (amounts[i] == 0) amounts[i] = IERC1155(token).balanceOf(address(this), ids[i]);
     }
