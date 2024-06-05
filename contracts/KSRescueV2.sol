@@ -27,19 +27,8 @@ abstract contract KSRescueV2 is KSRescue {
     require(recipient != address(0), 'KSRescue: invalid recipient');
     require(ids.length == amounts.length);
     for (uint256 i = 0; i < ids.length; ++i) {
-      if (amounts[i] == 0) amounts[i] = _getAvailableAmountERC1155(token, ids[i]);
+      if (amounts[i] == 0) amounts[i] = IERC1155(token).balanceOf(address(this), ids[i]);
     }
     IERC1155(token).safeBatchTransferFrom(address(this), recipient, ids, amounts, data);
-  }
-
-  function _getAvailableAmountERC1155(
-    address token,
-    uint256 id
-  ) internal view virtual returns (uint256 amount) {
-    if (_isETH(token)) {
-      amount = address(this).balance;
-    } else {
-      amount = IERC1155(token).balanceOf(address(this), id);
-    }
   }
 }
