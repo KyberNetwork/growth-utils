@@ -9,7 +9,7 @@ import {MockSC} from '../mocks/MockSC.sol';
 contract KSRescueTest is KSRescueSetup {
   MockSC public mockSC;
 
-  function setUp() public override {
+  function setUp() public virtual override {
     super.setUp();
     mockSC = new MockSC();
   }

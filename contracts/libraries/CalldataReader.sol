@@ -18,11 +18,7 @@ library CalldataReader {
     assembly {
       let m := mload(0x40)
       mstore(m, length)
-      for {
-        let i := 0
-      } lt(i, loops) {
-        i := add(1, i)
-      } {
+      for { let i := 0 } lt(i, loops) { i := add(1, i) } {
         mstore(add(m, mul(32, add(1, i))), mload(add(data, add(mul(32, add(1, i)), startByte))))
       }
       mstore(0x40, add(m, add(32, length)))
@@ -43,57 +39,84 @@ library CalldataReader {
     return (uint8(bytes1(ret)), startByte);
   }
 
-  function _readUint24(bytes memory data, uint256 startByte) internal pure returns (uint24, uint256) {
+  function _readUint24(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (uint24, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 3);
     return (uint24(bytes3(ret)), startByte);
   }
 
-  function _readUint32(bytes memory data, uint256 startByte) internal pure returns (uint32, uint256) {
+  function _readUint32(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (uint32, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 4);
     return (uint32(bytes4(ret)), startByte);
   }
 
-  function _readUint160(bytes memory data, uint256 startByte) internal pure returns (uint160, uint256) {
+  function _readUint160(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (uint160, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 20);
     return (uint160(bytes20(ret)), startByte);
   }
 
   /// @dev only when sure that the value of uint256 never exceed uint128
-  function _readUint128AsUint256(bytes memory data, uint256 startByte) internal pure returns (uint256, uint256) {
+  function _readUint128AsUint256(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (uint256, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 16);
     return (uint256(uint128(bytes16(ret))), startByte);
   }
 
-  function _readAddress(bytes memory data, uint256 startByte) internal pure returns (address, uint256) {
+  function _readAddress(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (address, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 20);
     return (address(bytes20(ret)), startByte);
   }
 
-  function _readBytes1(bytes memory data, uint256 startByte) internal pure returns (bytes1, uint256) {
+  function _readBytes1(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (bytes1, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 1);
     return (bytes1(ret), startByte);
   }
 
-  function _readBytes4(bytes memory data, uint256 startByte) internal pure returns (bytes4, uint256) {
+  function _readBytes4(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (bytes4, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 4);
     return (bytes4(ret), startByte);
   }
 
-  function _readBytes32(bytes memory data, uint256 startByte) internal pure returns (bytes32, uint256) {
+  function _readBytes32(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (bytes32, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 32);
     return (bytes32(ret), startByte);
   }
 
   /// @dev length of bytes is currently limited to uint32
-  function _readBytes(bytes memory data, uint256 startByte) internal pure returns (bytes memory b, uint256) {
+  function _readBytes(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (bytes memory b, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 4);
     uint256 length = uint256(uint32(bytes4(ret)));
@@ -102,11 +125,10 @@ library CalldataReader {
   }
 
   /// @dev length of bytes array is currently limited to uint8
-  function _readBytesArray(bytes memory data, uint256 startByte)
-    internal
-    pure
-    returns (bytes[] memory bytesArray, uint256)
-  {
+  function _readBytesArray(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (bytes[] memory bytesArray, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 1);
     uint256 length = uint256(uint8(bytes1(ret)));
@@ -118,11 +140,10 @@ library CalldataReader {
   }
 
   /// @dev length of address array is currently limited to uint8 to save bytes
-  function _readAddressArray(bytes memory data, uint256 startByte)
-    internal
-    pure
-    returns (address[] memory addrs, uint256)
-  {
+  function _readAddressArray(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (address[] memory addrs, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 1);
     uint256 length = uint256(uint8(bytes1(ret)));
@@ -135,11 +156,10 @@ library CalldataReader {
 
   /// @dev length of uint array is currently limited to uint8 to save bytes
   /// @dev same as _readUint128AsUint256, only use when sure that value never exceed uint128
-  function _readUint128ArrayAsUint256Array(bytes memory data, uint256 startByte)
-    internal
-    pure
-    returns (uint256[] memory, uint256)
-  {
+  function _readUint128ArrayAsUint256Array(
+    bytes memory data,
+    uint256 startByte
+  ) internal pure returns (uint256[] memory, uint256) {
     bytes memory ret;
     (ret, startByte) = _calldataVal(data, startByte, 1);
     uint256 length = uint256(uint8(bytes1(ret)));
